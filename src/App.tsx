@@ -25,10 +25,18 @@ function App() {
 
     try {
       const formData = new FormData(event.currentTarget);
-      console.log("data typed in form",formData)
+      console.log("data typed in form", formData)
       console.log("All form data entries:", [...formData.entries()]);
+      // const { data, errors } = await amplifyClient.queries.askBedrock({
+      //   ingredients: [formData.get("ingredients")?.toString() || "rice"],
+      // });
+
+      const rawIngredients = formData.get("ingredients")?.toString() || "";
+      console.log("rawIngredients",rawIngredients)
+      const ingredientsArray = rawIngredients.split(",").map((i) => i.trim()).filter(Boolean);
+
       const { data, errors } = await amplifyClient.queries.askBedrock({
-        ingredients: [formData.get("ingredients")?.toString() || "rice"],
+        ingredients: ingredientsArray,
       });
 
       if (!errors) {
@@ -37,7 +45,7 @@ function App() {
         console.log(errors);
       }
 
-  
+
     } catch (e) {
       alert(`An error occurred: ${e}`);
     } finally {
@@ -61,16 +69,16 @@ function App() {
       </div>
       <form onSubmit={onSubmit} className="search-container form-container">
         {/* <div className="search-container"> */}
-          <input
-            type="text"
-            className="wide-input"
-            id="ingredients"
-            name="ingredients"
-            placeholder="Ingredient1, Ingredient2, Ingredient3,...etc"
-          />
-          <button type="submit" className="search-button">
-            Generate
-          </button>
+        <input
+          type="text"
+          className="wide-input"
+          id="ingredients"
+          name="ingredients"
+          placeholder="Ingredient1, Ingredient2, Ingredient3,...etc"
+        />
+        <button type="submit" className="search-button">
+          Generate
+        </button>
         {/* </div> */}
       </form>
       <div className="result-container">
