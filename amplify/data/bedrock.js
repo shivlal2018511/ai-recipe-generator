@@ -1,9 +1,10 @@
 export function request(ctx) {
     const { ingredients = [] } = ctx.args;
-  
+    let joinedIngredients = ingredients.join(", ");
+    console.log("ingredients available", ingredients, "joined list",joinedIngredients)
     // Construct the prompt with the provided ingredients
-    const prompt = `Suggest a recipe idea using these ingredients: ${ingredients.join(", ")}.`;
-  
+    const prompt = `Suggest a recipe idea using these ingredients: ${joinedIngredients}.`;
+   
     // Return the request configuration
     return {
       resourcePath: `/anthropic.claude-3-5-sonnet-20240620-v1:0/invoke`,
@@ -33,7 +34,9 @@ export function request(ctx) {
   
   export function response(ctx) {
     // Parse the response body
+    console.log("ctx", ctx)
     const parsedBody = JSON.parse(ctx.result.body);
+    console.log("parsedBody", parsedBody)
     // Extract the text content from the response
     const res = {
       body: parsedBody.content[0].text,
