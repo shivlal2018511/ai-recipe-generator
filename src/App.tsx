@@ -25,9 +25,9 @@ function App() {
 
     try {
       const formData = new FormData(event.currentTarget);
-      
+      console.log("data typed in form",formData)
       const { data, errors } = await amplifyClient.queries.askBedrock({
-        ingredients: [formData.get("ingredients")?.toString() || ""],
+        ingredients: [formData.get("ingredients")?.toString() || "rice"],
       });
 
       if (!errors) {
