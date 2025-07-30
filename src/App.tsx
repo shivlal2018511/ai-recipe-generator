@@ -26,6 +26,7 @@ function App() {
     try {
       const formData = new FormData(event.currentTarget);
       console.log("data typed in form",formData)
+      console.log("All form data entries:", [...formData.entries()]);
       const { data, errors } = await amplifyClient.queries.askBedrock({
         ingredients: [formData.get("ingredients")?.toString() || "rice"],
       });
@@ -58,8 +59,8 @@ function App() {
           demand...
         </p>
       </div>
-      <form onSubmit={onSubmit} className="form-container">
-        <div className="search-container">
+      <form onSubmit={onSubmit} className="search-container form-container">
+        {/* <div className="search-container"> */}
           <input
             type="text"
             className="wide-input"
@@ -70,7 +71,7 @@ function App() {
           <button type="submit" className="search-button">
             Generate
           </button>
-        </div>
+        {/* </div> */}
       </form>
       <div className="result-container">
         {loading ? (
